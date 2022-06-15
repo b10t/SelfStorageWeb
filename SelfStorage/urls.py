@@ -17,13 +17,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
-
-from storages.views import index, boxes, faq
+from storages.views import boxes, faq, index, my_rent_empty
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('boxes/', boxes),
     path('faq/', faq),
+    path('my_rent_empty/', my_rent_empty),
     path('', index),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

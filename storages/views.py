@@ -17,3 +17,9 @@ def faq(request):
     context = {}
 
     return render(request, 'faq.html', context)
+
+
+def my_rent_empty(request):
+    context = {}
+
+    return render(request, 'my-rent-empty.html', context)
