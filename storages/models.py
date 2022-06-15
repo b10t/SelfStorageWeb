@@ -36,3 +36,22 @@ class Storage(models.Model):
 
     def __str__(self):
         return f'{self.city}, {self.address}'
+
+
+class Box(models.Model):
+    storage = models.ForeignKey(
+        Storage,
+        verbose_name='Склад',
+        related_name='boxes_in_storage',
+        on_delete=models.CASCADE,
+    )
+    space = models.PositiveSmallIntegerField('Площадь')
+    is_available = models.BooleanField('Доступность', default=True)
+    cost = models.PositiveSmallIntegerField('Стоимость')
+
+    class Meta:
+        verbose_name = 'Бокс'
+        verbose_name_plural = 'Боксы'
+
+    def __str__(self):
+        return f'{self.storage}: {self.space} м.кв.'
