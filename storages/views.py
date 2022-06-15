@@ -11,3 +11,9 @@ def boxes(request):
     context = {}
 
     return render(request, 'boxes.html', context)
+
+
+def faq(request):
+    context = {}
+
+    return render(request, 'faq.html', context)
