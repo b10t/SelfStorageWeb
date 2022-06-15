@@ -1,3 +1,38 @@
 from django.db import models
 
-# Create your models here.
+
+class City(models.Model):
+    city = models.CharField('Город', max_length=50)
+
+
+class Storage(models.Model):
+    address = models.CharField('Адрес', max_length=50)
+    temperature = models.SmallIntegerField('Температура на складе')
+    height = models.DecimalField(
+        'Высота потолка',
+        decimal_places=2,
+        max_digits=5,
+    )
+    description = models.TextField(
+        'Описание',
+        blank=True,
+        default='',
+    )
+    driving_instructions = models.TextField(
+        'Проезд',
+        blank=True,
+        default='',
+    )
+    city = models.ForeignKey(
+        City,
+        verbose_name='Город',
+        related_name='storages',
+        on_delete=models.CASCADE,
+    )
+
+    class Meta:
+        verbose_name = 'Склад'
+        verbose_name_plural = 'Склады'
+
+    def __str__(self):
+        return f'{self.city}, {self.address}'
