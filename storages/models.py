@@ -15,8 +15,8 @@ class City(models.Model):
 class Storage(models.Model):
     address = models.CharField('Адрес', max_length=50)
     temperature = models.SmallIntegerField('Температура на складе')
-    height = models.DecimalField(
-        'Высота потолка',
+    max_height = models.DecimalField(
+        'Максимальная высота потолка',
         decimal_places=2,
         max_digits=5,
     )
@@ -26,7 +26,7 @@ class Storage(models.Model):
         default='',
     )
     driving_instructions = models.TextField(
-        'Проезд',
+        'Как проехать',
         blank=True,
         default='',
     )
@@ -52,16 +52,45 @@ class Box(models.Model):
         related_name='boxes_in_storage',
         on_delete=models.CASCADE,
     )
-    space = models.PositiveSmallIntegerField('Площадь')
-    is_available = models.BooleanField('Доступность', default=True)
+    length = models.DecimalField(
+        'Длина',
+        decimal_places=2,
+        max_digits=5,
+    )
+    width = models.DecimalField(
+        'Ширина',
+        decimal_places=2,
+        max_digits=5,
+    )
+    total_area = models.DecimalField(
+        'Общая площадь (заполняется автоматически)',
+        decimal_places=2,
+        max_digits=5,
+        blank=True,
+    )
+    height = models.DecimalField(
+        'Высота',
+        decimal_places=2,
+        max_digits=5,
+        blank=True
+    )
+
+    is_available = models.BooleanField('Свободен', default=True)
     cost = models.PositiveSmallIntegerField('Стоимость')
 
     class Meta:
         verbose_name = 'Бокс'
         verbose_name_plural = 'Боксы'
 
+    def save(self, *args, **kwargs):
+        if not self.height:
+            self.height = self.storage.max_height
+        if not self.total_area:
+            self.total_area = self.width * self.length
+        super(Box, self).save(*args, **kwargs)
+
     def __str__(self):
-        return f'{self.storage}: {self.space} м.кв.'
+        return f'{self.storage}: {round((self.length * self.width), 2)} м.кв.'
 
 
 class Image(models.Model):

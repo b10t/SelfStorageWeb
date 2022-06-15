@@ -16,7 +16,7 @@ class ImageInLine(admin.TabularInline):
 
 @admin.register(Box)
 class BoxAdmin(admin.ModelAdmin):
-    fields = ["storage", 'image', 'get_preview']
+    pass
 
 
 class BoxInLine(admin.TabularInline):
@@ -28,6 +28,7 @@ class BoxInLine(admin.TabularInline):
 class StorageAdmin(admin.ModelAdmin):
     inlines = [
         BoxInLine,
+        ImageInLine
     ]
 
 
@@ -42,6 +43,7 @@ class ImageAdmin(admin.ModelAdmin):
             '<img src="{}" width="200" />',
             obj.image.url
         )
+
 
 @admin.register(City)
 class CityAdmin(admin.ModelAdmin):
