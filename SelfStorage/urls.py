@@ -21,11 +21,11 @@ from storages.views import boxes, faq, index, my_rent, my_rent_empty
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('boxes/', boxes),
-    path('faq/', faq),
-    path('my_rent_empty/', my_rent_empty),
-    path('my_rent/', my_rent),
-    path('', index),
+    path('boxes/', boxes, name='boxes'),
+    path('faq/', faq, name='faq'),
+    path('my_rent_empty/', my_rent_empty, name='my_rent_empty'),
+    path('my_rent/', my_rent, name='my_rent'),
+    path('', index, name='index'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
