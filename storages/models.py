@@ -55,3 +55,20 @@ class Box(models.Model):
 
     def __str__(self):
         return f'{self.storage}: {self.space} м.кв.'
+
+
+class Image(models.Model):
+    storage = models.ForeignKey(
+        Storage,
+        verbose_name='Фото склада',
+        related_name='images',
+        on_delete=models.CASCADE,
+    )
+    image = models.ImageField('Изображение')
+
+    class Meta:
+        verbose_name = 'Изображение'
+        verbose_name_plural = 'Изображения'
+
+    def __str__(self):
+        return f'{self.pk} - {self.storage.address}'
