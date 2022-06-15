@@ -23,3 +23,9 @@ def my_rent_empty(request):
     context = {}
 
     return render(request, 'my-rent-empty.html', context)
+
+
+def my_rent(request):
+    context = {}
+
+    return render(request, 'my-rent.html', context)
