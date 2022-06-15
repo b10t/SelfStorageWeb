@@ -4,6 +4,13 @@ from django.db import models
 class City(models.Model):
     city = models.CharField('Город', max_length=50)
 
+    class Meta:
+        verbose_name = 'Город'
+        verbose_name_plural = 'Города'
+
+    def __str__(self):
+        return self.city
+
 
 class Storage(models.Model):
     address = models.CharField('Адрес', max_length=50)
