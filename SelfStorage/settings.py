@@ -33,6 +33,8 @@ DEBUG = env.bool('DEBUG', False)
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', [])
 
+STRIPE_API_KEY = env.str('STRIPE_API_KEY')
+
 # Application definition
 
 INSTALLED_APPS = [

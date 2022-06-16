@@ -16,8 +16,9 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, include
-from storages.views import boxes, faq, index, my_rent, my_rent_empty
+from django.urls import include, path
+from storages.views import (boxes, cancelled_payment, faq, index, make_payment,
+                            my_rent, my_rent_empty, successful_payment)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,6 +26,10 @@ urlpatterns = [
     path('faq/', faq, name='faq'),
     path('my_rent_empty/', my_rent_empty, name='my_rent_empty'),
     path('my_rent/', my_rent, name='my_rent'),
+    path('my_rent/', my_rent, name='my_rent'),
+    path('make_payment/', make_payment, name='make_payment'),
+    path('successful_payment/', successful_payment, name='successful_payment'),
+    path('cancelled_payment/', cancelled_payment, name='cancelled_payment'),
     path('', index, name='index'),
     path('accounts/', include('accounts.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
