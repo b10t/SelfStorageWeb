@@ -81,10 +81,25 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body d-flex justify-content-center align-items-center">
-              <form action="{% url 'signup' %}" method="post" class="d-flex flex-column align-items-center"
-                style="max-width: 420px">
+              <form action="{% url 'signup' %}" method="post" class="d-flex flex-column align-items-center" style="max-width: 420px">
                 {% csrf_token %}
                 <h1 class="modal-title text-center fw-bold mb-3">Регистрация</h1>
+                {% if signup_form.errors and signup_form.non_field_errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {% for error in signup_form.non_field_errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {% if signup_form.errors and not signup_form.non_field_errors %}
+                    <div class="alert alert-danger">
+                       {% for field in signup_form %}
+                           {% for error in field.errors %}
+                               {{ error|escape }}
+                           {% endfor %}
+                       {% endfor %}
+                    </div>
+                {% endif %}
                 <!--<input type="email" required name="EMAIL_CREATE"
                   class="form-control border-8 mb-4 py-3 px-5 border-0 fs_24 SelfStorage__bg_lightgrey"
                   placeholder="E-mail">-->
@@ -103,7 +118,7 @@
                         SelfStorage__btn2_orange">
                   Зарегистрироваться
                 </button>
-                <span>Уже зарегистрированы? <a href="{% url 'login' %}" class="SelfStorage_orange" data-bs-toggle="modal"
+                <span>Уже зарегистрированы? <a href="#" class="SelfStorage_orange" data-bs-toggle="modal"
                     data-bs-target="#SignModal" data-bs-dismiss="modal" aria-label="Close">Войти в личный кабинет</a></span>
               </form>
             </div>
@@ -117,10 +132,25 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body d-flex justify-content-center align-items-center">
-              <form action="{% url 'login' %}" method="post" class="d-flex flex-column align-items-center"
-                style="max-width: 420px">
+              <form action="{% url 'login' %}" method="post" class="d-flex flex-column align-items-center" style="max-width: 420px">
                 {% csrf_token %}
                 <h1 class="modal-title text-center fw-bold mb-3">Вход</h1>
+                {% if login_form.errors and login_form.non_field_errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {% for error in login_form.non_field_errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {% if login_form.errors and not login_form.non_field_errors %}
+                    <div class="alert alert-danger">
+                       {% for field in login_form %}
+                           {% for error in field.errors %}
+                               {{ error|escape }}
+                           {% endfor %}
+                       {% endfor %}
+                    </div>
+                {% endif %}
                 <!--<input type="email" required name="EMAIL"
                   class="form-control  border-8 mb-4 py-3 px-5 border-0 fs_24 SelfStorage__bg_lightgrey"
                   placeholder="E-mail">-->
@@ -135,7 +165,7 @@
                         SelfStorage__btn2_orange">
                   Войти
                 </button>
-                <span>Нет аккаунта? <a href="{% url 'signup' %}" class="SelfStorage_orange" data-bs-toggle="modal"
+                <span>Нет аккаунта? <a href="#" class="SelfStorage_orange" data-bs-toggle="modal"
                     data-bs-target="#RegModal" data-bs-dismiss="modal" aria-label="Close">Зарегистрируйтесь на
                     сайте</a></span>
               </form>
