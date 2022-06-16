@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.views import LogoutView
 from django.shortcuts import render, redirect
 from django.views.generic.edit import UpdateView
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 
 from accounts.forms import CustomUserCreationForm, ProfileForm, CustomAuthenticationForm
 
@@ -35,7 +35,7 @@ def signup_user(request):
             user = form.save()
             login(request, user)
             messages.success(request, 'Успешная регистрация')
-            return redirect('profile')
+            return redirect(reverse('profile', args=[request.user.id]))
         else:
             messages.error(request, 'Ошибка регистрации. Форма заполнена неверно')
     else:
@@ -53,7 +53,7 @@ def login_user(request):
             if user is not None:
                 login(request, user)
                 messages.success(request, f'Вы вошли в систему как {username}.')
-                return redirect('index')
+                return redirect(reverse('profile', args=[request.user.id]))
             else:
                 messages.error(request, 'Неверное имя пользователя или пароль')
         else:
