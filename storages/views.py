@@ -1,8 +1,13 @@
 from django.shortcuts import render
 
+from accounts.forms import CustomUserCreationForm, CustomAuthenticationForm
+
 
 def index(request):
-    context = {}
+    context = {
+        'signup_form': CustomUserCreationForm,
+        'login_form': CustomAuthenticationForm,
+    }
 
     return render(request, 'index.html', context)
 

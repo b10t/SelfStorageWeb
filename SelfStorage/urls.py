@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from storages.views import boxes, faq, index, my_rent, my_rent_empty
 
 urlpatterns = [
@@ -26,6 +26,7 @@ urlpatterns = [
     path('my_rent_empty/', my_rent_empty, name='my_rent_empty'),
     path('my_rent/', my_rent, name='my_rent'),
     path('', index, name='index'),
+    path('accounts/', include('accounts.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
