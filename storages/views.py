@@ -65,8 +65,12 @@ def make_payment(request):
 
 
 def successful_payment(request):
-    pass
+    context = {}
+
+    return render(request, 'successful_payment.html', context)
 
 
 def cancelled_payment(request):
-    pass
+    context = {}
+
+    return render(request, 'cancelled_payment.html', context)
