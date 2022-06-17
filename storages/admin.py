@@ -1,6 +1,7 @@
 from django.contrib import admin
-from .models import Box, City, Image, Storage
 from django.utils.html import format_html
+
+from .models import Box, City, Image, Storage
 
 
 class ImageInLine(admin.TabularInline):
@@ -48,3 +49,8 @@ class ImageAdmin(admin.ModelAdmin):
 @admin.register(City)
 class CityAdmin(admin.ModelAdmin):
     pass
+
+
+# @admin.register(AdvUser)
+# class AdvUserAdmin(admin.ModelAdmin):
+#     pass
