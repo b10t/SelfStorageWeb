@@ -167,3 +167,4 @@ env/
 .env
 media/
 staticfiles/
+migrations/
