@@ -24,7 +24,7 @@
         <li class="nav-item flex-grow-1 mx-2" role="presentation">
           <a href="#BOX" class="row text-decoration-none py-3 px-4 mt-5 SelfStorage__boxlink" id="pills-Moscow-tab" data-bs-toggle="pill" data-bs-target="#pills-Moscow" role="tab" aria-controls="pills-Moscow" aria-selected="true">
             <div class="col-12 col-lg-3 d-flex justify-content-center">
-              <img src="{% static '/img/image11.png' %}" alt="" class="mb-3 mb-lg-0">
+              <img src="{{ storage.images.first.image.url }}" alt="{{ storage }}" class="mb-3 mb-lg-0" height="98">
             </div>
             <div class="col-12 col-md-4 col-lg-3 d-flex flex-column justify-content-center">
               <h4 class="text-center">{{ storage.city }}</h4>
@@ -36,13 +36,14 @@
             </div>
             <div class="col-12 col-md-4 col-lg-3 d-flex flex-column justify-content-center">
               <h4 class="text-center SelfStorage_green">от {{ storage.min_price }} ₽</h4>
-              <h6 class="text-center">Рядом с метро</h6>
+              <h6 class="text-center">Какое-то свойство</h6>
             </div>
           </a>
         </li>
         {% endfor %}
-        <h5>Статические данные для теста. Удалю позже</h5>
+
         <li class="nav-item flex-grow-1 mx-2" role="presentation">
+            <h5>Статические данные для теста. Удалю позже</h5><br>
           <a href="#BOX" class="row text-decoration-none py-3 px-4 mt-5 SelfStorage__boxlink" id="pills-Odintsovo-tab" data-bs-toggle="pill" data-bs-target="#pills-Odintsovo" role="tab" aria-controls="pills-Odintsovo" aria-selected="true">
             <div class="col-12 col-lg-3 d-flex justify-content-center">
               <img src="{% static '/img/image9.png' %}" alt="" class="mb-3 mb-lg-0">
