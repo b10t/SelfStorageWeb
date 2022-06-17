@@ -35,7 +35,7 @@ ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', [])
 
 STRIPE_API_KEY = env.str('STRIPE_API_KEY')
 
-AUTH_USER_MODEL = 'storages.AdvUser'
+# AUTH_USER_MODEL = 'storages.AdvUser'
 
 # Application definition
 
