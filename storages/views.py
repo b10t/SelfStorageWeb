@@ -1,5 +1,5 @@
 import stripe
-from accounts.forms import CustomAuthenticationForm, CustomUserCreationForm
+from accounts.forms import UserAuthenticationForm, CustomUserCreationForm
 from django.conf import settings
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -8,7 +8,7 @@ from django.urls import reverse
 def index(request):
     context = {
         'signup_form': CustomUserCreationForm,
-        'login_form': CustomAuthenticationForm,
+        'login_form': UserAuthenticationForm,
     }
 
     return render(request, 'index.html', context)
