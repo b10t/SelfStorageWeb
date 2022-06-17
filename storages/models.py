@@ -150,7 +150,7 @@ class Image(models.Model):
         related_name='images',
         on_delete=models.CASCADE,
     )
-    image = models.ImageField('Изображение')
+    image = models.ImageField('Изображение', upload_to='storage')
 
     class Meta:
         verbose_name = 'Изображение'
