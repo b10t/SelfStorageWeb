@@ -1,8 +1,11 @@
 import stripe
 from accounts.forms import CustomAuthenticationForm, CustomUserCreationForm
+from django.db.models import Count, Q, Min
 from django.conf import settings
 from django.shortcuts import redirect, render
 from django.urls import reverse
+
+from .models import Box, Storage, City
 
 
 def index(request):
@@ -15,7 +18,14 @@ def index(request):
 
 
 def boxes(request):
-    context = {}
+    free_boxes_query = Count('boxes_in_storage', filter=Q(boxes_in_storage__is_available=True))
+    storages = Storage.objects.prefetch_related('boxes_in_storage')\
+        .select_related('city')\
+        .annotate(free_boxes=free_boxes_query)\
+        .annotate(boxes_count=Count('boxes_in_storage'))\
+        .annotate(min_price=Min('boxes_in_storage__cost'))
+
+    context = {"storages": storages}
 
     return render(request, 'boxes.html', context)
 
