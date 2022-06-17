@@ -1,17 +1,18 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import User
 from django.contrib.auth.views import LogoutView
 from django.shortcuts import render, redirect
 from django.views.generic.edit import UpdateView
 from django.urls import reverse_lazy, reverse
 
-from accounts.forms import CustomUserCreationForm, ProfileForm, CustomAuthenticationForm
+from accounts.forms import CustomUserCreationForm, ProfileForm, UserAuthenticationForm
+
+from accounts.models import CustomUser
 
 
 class ProfileView(LoginRequiredMixin, UpdateView):
-    model = User
+    model = CustomUser
     form_class = ProfileForm
     template_name = 'my-rent.html'
 
@@ -33,6 +34,10 @@ def signup_user(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
+            # email = form.cleaned_data.get('email')
+            # password = form.cleaned_data.get('password1')
+            # account = authenticate(email=email, password=password)
+            # login(request, account)
             login(request, user)
             messages.success(request, 'Успешная регистрация')
             return redirect(reverse('profile', args=[request.user.id]))
@@ -45,11 +50,11 @@ def signup_user(request):
 
 def login_user(request):
     if request.method == 'POST':
-        form = CustomAuthenticationForm(request, data=request.POST)
+        form = UserAuthenticationForm(request.POST)
         if form.is_valid():
-            username = form.cleaned_data.get('username')
+            username = form.cleaned_data.get('email')
             password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
+            user = authenticate(email=username, password=password)
             if user is not None:
                 login(request, user)
                 messages.success(request, f'Вы вошли в систему как {username}.')
@@ -59,5 +64,5 @@ def login_user(request):
         else:
             messages.error(request, 'Ошибка входа. Форма заполнена неверно')
     else:
-        form = CustomAuthenticationForm()
+        form = UserAuthenticationForm()
     return render(request, 'index.html', {'login_form': form})

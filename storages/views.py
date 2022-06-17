@@ -1,17 +1,17 @@
 import stripe
-from accounts.forms import CustomAuthenticationForm, CustomUserCreationForm
-from django.db.models import Count, Q, Min
+from accounts.forms import CustomUserCreationForm, UserAuthenticationForm
 from django.conf import settings
+from django.db.models import Count, Min, Q
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
-from .models import Box, Storage, City
+from .models import Box, City, Storage
 
 
 def index(request):
     context = {
         'signup_form': CustomUserCreationForm,
-        'login_form': CustomAuthenticationForm,
+        'login_form': UserAuthenticationForm,
     }
 
     return render(request, 'index.html', context)
