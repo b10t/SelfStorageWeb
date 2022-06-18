@@ -56,6 +56,10 @@ class Box(models.Model):
         related_name='boxes_in_storage',
         on_delete=models.CASCADE,
     )
+    number = models.CharField(
+        max_length=10,
+        verbose_name='№ бокса'
+    )
     length = models.DecimalField(
         'Длина',
         decimal_places=2,
@@ -94,7 +98,7 @@ class Box(models.Model):
         super(Box, self).save(*args, **kwargs)
 
     def __str__(self):
-        return f'{self.storage}: {round((self.length * self.width), 2)} м.кв.'
+        return f'{self.storage}: №{self.number} ({round((self.length * self.width), 2)} м.кв.)'
 
 
 class Image(models.Model):

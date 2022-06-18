@@ -17,7 +17,10 @@ class ImageInLine(admin.TabularInline):
 
 @admin.register(Box)
 class BoxAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('storage', 'number', 'length', 'width',
+                    'total_area', 'cost', 'is_available')
+    fields = ('storage', 'number', 'length', 'width',
+              'cost', 'is_available')
 
 
 class BoxInLine(admin.TabularInline):
@@ -35,9 +38,9 @@ class StorageAdmin(admin.ModelAdmin):
 
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
-    list_display = ["__str__", "storage", 'image', 'get_preview']
-    fields = ["storage", 'image', 'get_preview']
-    readonly_fields = ("get_preview",)
+    list_display = ['__str__', 'storage', 'image', 'get_preview']
+    fields = ['storage', 'image', 'get_preview']
+    readonly_fields = ('get_preview',)
 
     def get_preview(self, obj):
         return format_html(
