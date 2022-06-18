@@ -56,4 +56,5 @@ class CityAdmin(admin.ModelAdmin):
 
 @admin.register(Rent)
 class RentAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('tenant', 'box', 'rental_period', 'is_payment', )
+    readonly_fields = ['payment_id']
