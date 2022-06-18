@@ -1,54 +1,8 @@
-# # from django.conf import settings
-# # from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager,
-#                                         PermissionsMixin)
+from operator import index
+import uuid
+
+from accounts.models import CustomUser as User
 from django.db import models
-# from django.utils.translation import gettext_lazy as _
-
-
-# class CustomManager(BaseUserManager):
-
-#     def _create_user(self, email, username, password, **extra_fields):
-#         if not email:
-#             raise ValueError('Должна быть электронная почта')
-#         email = self.normalize_email(email)
-#         user = self.model(email=email, username=username, **extra_fields)
-#         user.set_password(password)
-#         user.save()
-#         return user
-
-#     def create_superuser(self, email, username, password, **extra_fields):
-#         extra_fields.setdefault('is_staff', True)
-#         extra_fields.setdefault('is_superuser', True)
-#         extra_fields.setdefault('is_active', True)
-#         extra_fields.setdefault('is_admin', True)
-
-#         return self._create_user(email, username, password, **extra_fields)
-
-
-# class AdvUser(AbstractBaseUser, PermissionsMixin):
-#     email = models.EmailField(unique=True, null=True)
-#     username = models.CharField(verbose_name='имя', max_length=150)
-
-#     is_staff = models.BooleanField(_('staff status'), default=False)
-#     is_admin = models.BooleanField(default=False)
-#     is_active = models.BooleanField(_('active'), default=True)
-#     objects = CustomManager()
-
-#     USERNAME_FIELD = 'email'
-#     REQUIRED_FIELDS = ['username', ]
-
-#     class Meta:
-#         verbose_name = 'Пользователь'
-#         verbose_name_plural = 'Пользователи'
-
-#     def __str__(self):
-#         return f'{self.username}, {self.email if self.email else "no email"}'
-
-#     def get_full_name(self):
-#         return f'{self.username}, {self.email if self.email else "no email"}'
-
-#     def get_short_name(self):
-#         return self.username
 
 
 class City(models.Model):
@@ -158,3 +112,40 @@ class Image(models.Model):
 
     def __str__(self):
         return f'{self.pk} - {self.storage.address}'
+
+
+class Rent(models.Model):
+    """Аренда."""
+    tenant = models.ForeignKey(
+        User,
+        related_name='rents',
+        on_delete=models.CASCADE,
+        verbose_name='Арендатор',
+    )
+    box = models.ForeignKey(
+        Box,
+        related_name='rents',
+        on_delete=models.DO_NOTHING,
+        verbose_name='Бокс',
+    )
+    rental_period = models.DateTimeField(
+        verbose_name='Срок аренды'
+    )
+    payment_id = models.UUIDField(
+        default=uuid.uuid4,
+        editable=False,
+        unique=True,
+        db_index=True,
+        verbose_name='Идентификатор платежа'
+    )
+    is_payment = models.BooleanField(
+        default=False,
+        verbose_name='Оплачен'
+    )
+
+    class Meta:
+        verbose_name = 'Аренда'
+        verbose_name_plural = 'Аренда'
+
+    def __str__(self):
+        return f'{self.pk} - {self.tenant}'
