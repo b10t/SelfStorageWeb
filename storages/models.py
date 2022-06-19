@@ -1,8 +1,13 @@
-from operator import index
+import datetime
 import uuid
 
 from accounts.models import CustomUser as User
 from django.db import models
+
+
+def now_plus_30():
+    """Прибавляет к текущей дате 30 дней."""
+    return datetime.datetime.now() + datetime.timedelta(days=30)
 
 
 class City(models.Model):
@@ -132,8 +137,13 @@ class Rent(models.Model):
         on_delete=models.DO_NOTHING,
         verbose_name='Бокс',
     )
-    rental_period = models.DateTimeField(
-        verbose_name='Срок аренды'
+    start_rental_period = models.DateField(
+        default=datetime.datetime.now,
+        verbose_name='Начало аренды'
+    )
+    end_rental_period = models.DateField(
+        default=now_plus_30,
+        verbose_name='Окончание аренды'
     )
     payment_id = models.UUIDField(
         default=uuid.uuid4,
@@ -141,6 +151,13 @@ class Rent(models.Model):
         unique=True,
         db_index=True,
         verbose_name='Идентификатор платежа'
+    )
+    stripe_payment_id = models.CharField(
+        max_length=100,
+        blank=True,
+        default='',
+        editable=False,
+        verbose_name='Ид. платежа stripe'
     )
     is_payment = models.BooleanField(
         default=False,
