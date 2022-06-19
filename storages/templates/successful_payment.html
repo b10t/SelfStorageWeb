@@ -38,11 +38,26 @@
     </style>
     <body>
       <div class="card">
-      <div style="border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;">
-        <i class="checkmark">✓</i>
-      </div>
+        <div style="border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;">
+          <i class="checkmark">✓</i>
+        </div>
         <h1>Успешно!</h1>
         <p>Мы получили Вашу оплату!<br/>Спасибо, что пользуетесь нашим сервисом!</p>
+
+        <span class="time-left"></span>
       </div>
     </body>
+
+    <script>
+      var delay = 10,
+      output = document.querySelector('.time-left'),
+      timer = setInterval(function() {
+          output.textContent = --delay;
+          if (!delay) {
+              clearInterval(timer);
+              window.location.href = "{% url 'my_rent' %}";
+          }
+      }, 1000);
+      output.textContent = delay;
+    </script>
 </html>
