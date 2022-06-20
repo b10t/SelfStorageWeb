@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LogoutView
-from django.core.mail import send_mail, EmailMessage
+from django.core.mail import EmailMessage
 from django.shortcuts import render, redirect
 from django.views.generic.edit import UpdateView
 from django.urls import reverse_lazy, reverse
@@ -24,10 +24,10 @@ class ProfileView(LoginRequiredMixin, UpdateView):
     form_class = ProfileForm
     template_name = 'my-rent.html'
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['subscribes'] = Subscribe.objects.filter(subscriber=self.request.user.id)
-    #     return context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['rents'] = Rent.objects.filter(tenant=self.request.user).order_by('box')
+        return context
 
     def get_success_url(self):
         return reverse_lazy('profile', args=[self.request.user.id])
@@ -76,8 +76,10 @@ def login_user(request):
     return render(request, 'index.html', {'login_form': form})
 
 
-def send_qrcode_to_email(request):
-    generated_qrcode = qrcode.make('12345')
+def send_qrcode_to_email(request, rent_id):
+    rent = Rent.objects.get(id=rent_id)
+
+    generated_qrcode = qrcode.make(rent.payment_id)
     qrcode_filename = 'qr' + str(time.time()) + '.png'
     generated_qrcode.save(qrcode_filename)
 
@@ -85,3 +87,5 @@ def send_qrcode_to_email(request):
     email.attach_file(qrcode_filename)
     email.send()
     os.remove(qrcode_filename)
+
+    return redirect(reverse('profile', args=[request.user.id]))
