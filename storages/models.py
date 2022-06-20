@@ -28,6 +28,9 @@ class StorageProperty(models.Model):
         verbose_name = 'Свойство склада'
         verbose_name_plural = 'Свойства склада'
 
+    def __str__(self):
+        return self.property
+
 
 class Storage(models.Model):
     address = models.CharField('Адрес', max_length=50)

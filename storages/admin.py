@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from .models import Box, City, Image, Rent, Storage
+from .models import Box, City, Image, Rent, Storage, StorageProperty
 
 
 class ImageInLine(admin.TabularInline):
@@ -22,6 +22,10 @@ class BoxAdmin(admin.ModelAdmin):
     fields = ('storage', 'number', 'length', 'width',
               'cost', 'is_available')
 
+
+@admin.register(StorageProperty)
+class StoragePropertyAdmin(admin.ModelAdmin):
+    pass
 
 class BoxInLine(admin.TabularInline):
     model = Box
