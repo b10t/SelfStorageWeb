@@ -8,5 +8,5 @@ urlpatterns = [
     path('signup/', views.signup_user, name='signup'),
     path('profile/<int:pk>/', views.ProfileView.as_view(), name='profile'),
     # path('update/<int:pk>/', views.UserUpdateView.as_view(), name='update'),
-    path('send_qrcode/', views.send_qrcode_to_email, name='send_qrcode'),
+    path('send_qrcode/<int:rent_id>', views.send_qrcode_to_email, name='send_qrcode'),
 ]
