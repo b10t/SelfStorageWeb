@@ -21,6 +21,14 @@ class City(models.Model):
         return self.city
 
 
+class StorageProperty(models.Model):
+    property = models.CharField('Свойство склада', max_length=200)
+
+    class Meta:
+        verbose_name = 'Свойство склада'
+        verbose_name_plural = 'Свойства склада'
+
+
 class Storage(models.Model):
     address = models.CharField('Адрес', max_length=50)
     temperature = models.SmallIntegerField('Температура на складе')
@@ -44,6 +52,15 @@ class Storage(models.Model):
         verbose_name='Город',
         related_name='storages',
         on_delete=models.CASCADE,
+    )
+
+    property = models.ForeignKey(
+        StorageProperty,
+        verbose_name='Свойство',
+        related_name='storages',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
     )
 
     class Meta:
