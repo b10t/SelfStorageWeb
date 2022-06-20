@@ -1,14 +1,22 @@
+import os
+import time
+
+import qrcode
+import qrcode.image.svg
+
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LogoutView
+from django.core.mail import send_mail, EmailMessage
 from django.shortcuts import render, redirect
 from django.views.generic.edit import UpdateView
 from django.urls import reverse_lazy, reverse
 
 from accounts.forms import CustomUserCreationForm, ProfileForm, UserAuthenticationForm
-
 from accounts.models import CustomUser
+from storages.models import Rent
 
 
 class ProfileView(LoginRequiredMixin, UpdateView):
@@ -66,3 +74,14 @@ def login_user(request):
     else:
         form = UserAuthenticationForm()
     return render(request, 'index.html', {'login_form': form})
+
+
+def send_qrcode_to_email(request):
+    generated_qrcode = qrcode.make('12345')
+    qrcode_filename = 'qr' + str(time.time()) + '.png'
+    generated_qrcode.save(qrcode_filename)
+
+    email = EmailMessage('QR-code', 'Your qr-code is in attachment', settings.EMAIL_HOST_USER, [request.user.email])
+    email.attach_file(qrcode_filename)
+    email.send()
+    os.remove(qrcode_filename)
