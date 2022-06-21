@@ -17,8 +17,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
-from storages.views import (boxes, cancelled_payment, faq, index, make_payment,
-                            my_rent, my_rent_empty, successful_payment)
+from storages.views import (boxes, cancelled_payment, create_rent, faq, index,
+                            make_payment, my_rent, my_rent_empty,
+                            successful_payment)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,6 +28,7 @@ urlpatterns = [
     path('my_rent_empty/', my_rent_empty, name='my_rent_empty'),
     path('my_rent/', my_rent, name='my_rent'),
     path('my_rent/', my_rent, name='my_rent'),
+    path('create_rent/<int:box_id>/', create_rent, name='create_rent'),
     path('make_payment/<str:payment_id>/', make_payment, name='make_payment'),
     path('successful_payment/<str:payment_id>/',
          successful_payment, name='successful_payment'),

@@ -1,13 +1,14 @@
 import stripe
 from accounts.forms import CustomUserCreationForm, UserAuthenticationForm
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
-from django.db.models import Count, Min, Q, F
+from django.db.models import Count, F, Min, Q
 from django.http import HttpResponseNotFound
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
-from .models import Box, City, Rent, Storage
+from .models import Box, Rent, Storage
 
 
 def index(request):
@@ -57,6 +58,22 @@ def my_rent(request):
     return render(request, 'my-rent.html', context)
 
 
+@login_required
+def create_rent(request, box_id: int):
+    """Создание заказа на аренду."""
+    box = get_object_or_404(Box, pk=box_id)
+
+    rent = Rent()
+    rent.tenant = request.user
+    rent.box = box
+    rent.save()
+
+    payment_url = request.build_absolute_uri(
+        reverse('make_payment', kwargs={'payment_id': rent.payment_id}))
+
+    return redirect(payment_url, code=303)
+
+
 def make_payment(request, payment_id):
     """Производит платёж."""
     stripe.api_key = settings.STRIPE_API_KEY
@@ -67,6 +84,9 @@ def make_payment(request, payment_id):
         return HttpResponseNotFound('Неверный формат id платежа.')
     except Rent.DoesNotExist:
         return HttpResponseNotFound(f'Платёж {payment_id} не найден.')
+
+    if rent.is_payment:
+        return HttpResponseNotFound(f'Платёж {payment_id} оплачен.')
 
     amount = rent.box.cost * 100
 

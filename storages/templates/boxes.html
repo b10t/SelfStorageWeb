@@ -160,7 +160,7 @@
         <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-home-tab">
            {% for box in boxes %}
             {% if forloop.counter < 3 %}
-              <a href="#" class="row text-decoration-none py-3 px-4 mt-5 SelfStorage__boxlink">
+              <a href="{% url 'create_rent' box_id=box.id %}" class="row text-decoration-none py-3 px-4 mt-5 SelfStorage__boxlink">
                 <div>
                     <h5 class="text-center mb-4 fw-bold">{{ box.storage.city }}, {{ box.storage.address }}</h5>
                 </div>
@@ -182,7 +182,7 @@
           <div class="collapse" id="collapse-all">
             {% for box in boxes %}
               {% if forloop.counter > 3 %}
-                <a href="#" class="row text-decoration-none py-3 px-4 mt-5 SelfStorage__boxlink">
+                <a href="{% url 'create_rent' box_id=box.id %}" class="row text-decoration-none py-3 px-4 mt-5 SelfStorage__boxlink">
                   <div>
                     <h5 class="text-center mb-4 fw-bold">{{ box.storage.city }}, {{ box.storage.address }}</h5>
                   </div>
