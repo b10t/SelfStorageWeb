@@ -3,7 +3,7 @@ from accounts.forms import CustomUserCreationForm, UserAuthenticationForm
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
-from django.db.models import Count, F, Min, Q
+from django.db.models import Count, Min, Q
 from django.http import HttpResponseNotFound
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
