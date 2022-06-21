@@ -123,7 +123,6 @@
         </div>
         {% endfor %}
         </div>
-      </div>
 
       <form class="row mt-5 d-none">
         <div class="col-6 col-lg-3">
@@ -159,12 +158,12 @@
       </ul>
       <div class="tab-content" id="pills-tabContent">
         <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-home-tab">
-           {% for storage in storages %}
-             <div>
-               <h3 class="text-center mb-5 fw-bold">Склад: {{ storage.city }}, {{ storage.address }}</h3>
-             </div>
-            {% for box in storage.boxes_in_storage.available %}
+           {% for box in boxes %}
+            {% if forloop.counter < 3 %}
               <a href="#" class="row text-decoration-none py-3 px-4 mt-5 SelfStorage__boxlink">
+                <div>
+                    <h5 class="text-center mb-4 fw-bold">{{ box.storage.city }}, {{ box.storage.address }}</h5>
+                </div>
                 <div class="col-12 col-md-4 col-lg-3 d-flex justify-content-center align-items-center">
                   <span class="SelfStorage_green fs_24 me-2">1 эт.</span><span class="fs_24">№ {{ box.number }}</span>
                 </div>
@@ -172,14 +171,44 @@
                   <span class="fs_24">{{ box.total_area }} м²</span>
                 </div>
                 <div class="col-6 col-md-4 col-lg-3 d-flex justify-content-center align-items-center">
-                  <span class="fs_24">{{ box.height }} х {{ box.length }} х {{ box.total_area }} м²</span>
+                  <span class="fs_24">{{ box.width }} х {{ box.length }} х {{ box.height }} м²</span>
                 </div>
                 <div class="col-12 col-lg-3">
                   <span class="btn my-2 w-100 text-white fs_24 SelfStorage__bg_orange SelfStorage__btn2_orange border-8">{{ box.cost }} ₽</span>
                 </div>
               </a>
-            {% endfor %}
+            {% endif %}
           {% endfor %}
+          <div class="collapse" id="collapse-all">
+            {% for box in boxes %}
+              {% if forloop.counter > 3 %}
+                <a href="#" class="row text-decoration-none py-3 px-4 mt-5 SelfStorage__boxlink">
+                  <div>
+                    <h5 class="text-center mb-4 fw-bold">{{ box.storage.city }}, {{ box.storage.address }}</h5>
+                  </div>
+                  <div class="col-12 col-md-4 col-lg-3 d-flex justify-content-center align-items-center">
+                    <span class="SelfStorage_green fs_24 me-2">1 эт.</span><span class="fs_24">№ {{ box.number }}</span>
+                  </div>
+                  <div class="col-6 col-md-4 col-lg-3 d-flex justify-content-center align-items-center">
+                    <span class="fs_24">{{ box.total_area }} м²</span>
+                  </div>
+                  <div class="col-6 col-md-4 col-lg-3 d-flex justify-content-center align-items-center">
+                    <span class="fs_24">{{ box.width }} х {{ box.length }} х {{ box.height }} м²</span>
+                  </div>
+                  <div class="col-12 col-lg-3">
+                    <span class="btn my-2 w-100 text-white fs_24 SelfStorage__bg_orange SelfStorage__btn2_orange border-8">От 1234 ₽</span>
+                  </div>
+                </a>
+              {% endif %}
+            {% endfor %}
+          </div>
+          <div class="d-flex justify-content-center mt-5">
+            <button class="btn w-auto py-3 px-5 SelfStorage__bg_orange SelfStorage__btn2_orange text-white text-center fs_24 border-8" id="btn-collapse-all" data-bs-toggle="collapse" data-bs-target="#collapse-all" aria-expanded="false" aria-controls="collapse-all">Другие боксы</button>
+            <script>
+              document.getElementById('btn-collapse-all').addEventListener('click', () => document.getElementById('btn-collapse-all').classList.add('d-none'))
+            </script>
+          </div>
+        </div>
         <!-- Filters -->
         <div class="tab-pane fade" id="pills-to3" role="tabpanel" aria-labelledby="pills-profile-tab">
 
