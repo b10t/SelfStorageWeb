@@ -74,6 +74,12 @@ class Storage(models.Model):
         return f'{self.city}, {self.address}'
 
 
+class BoxQuerySet(models.QuerySet):
+    def available(self):
+        boxes = self.filter(is_available=True)
+        return boxes
+
+
 class Box(models.Model):
     storage = models.ForeignKey(
         Storage,
@@ -110,6 +116,8 @@ class Box(models.Model):
 
     is_available = models.BooleanField('Свободен', default=True)
     cost = models.PositiveSmallIntegerField('Стоимость')
+
+    objects = BoxQuerySet.as_manager()
 
     class Meta:
         verbose_name = 'Бокс'

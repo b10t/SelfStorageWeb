@@ -33,12 +33,12 @@
               <h6 class="text-center">{{ storage.address }}</h6>
             </div>
             <div class="col-12 col-md-4 col-lg-3 d-flex flex-column justify-content-center">
-              <h4 class="text-center">{{ storage.free_boxes }} из {{ storage.boxes_count }}</h4>
+              <h4 class="text-center">{{ storage.free_boxes_count }} из {{ storage.boxes_count }}</h4>
               <h6 class="text-center">Боксов свободно</h6>
             </div>
             <div class="col-12 col-md-4 col-lg-3 d-flex flex-column justify-content-center">
               <h4 class="text-center SelfStorage_green">от {{ storage.min_price }} ₽</h4>
-              <h6 class="text-center">Какое-то свойство</h6>
+              <h6 class="text-center">{{ storage.property }}</h6>
             </div>
           </a>
         </li>
@@ -103,7 +103,7 @@
                 <div class="col-6 d-flex flex-column align-items-center align-items-lg-start">
                   <span class="fs_30 fw-bold SelfStorage_orange">{{ storage.temperature }} °С</span>
                   <span class="SelfStorage_grey mb-3">Температура на складе</span>
-                  <span class="fs_30 fw-bold SelfStorage_orange">{{ storage.free_boxes }} из {{ storage.boxes_count }}</span>
+                  <span class="fs_30 fw-bold SelfStorage_orange">{{ storage.free_boxes_count }} из {{ storage.boxes_count }}</span>
                   <span class="SelfStorage_grey mb-3">Боксов свободно</span>
                 </div>
                 <div class="col-6 d-flex flex-column align-items-center align-items-lg-start">
@@ -159,54 +159,30 @@
       </ul>
       <div class="tab-content" id="pills-tabContent">
         <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-home-tab">
-          {% for box in boxes %}
-            {% if forloop.counter < 3 %}
+           {% for storage in storages %}
+             <div>
+               <h3 class="text-center mb-5 fw-bold">Склад: {{ storage.city }}, {{ storage.address }}</h3>
+             </div>
+            {% for box in storage.boxes_in_storage.available %}
               <a href="#" class="row text-decoration-none py-3 px-4 mt-5 SelfStorage__boxlink">
                 <div class="col-12 col-md-4 col-lg-3 d-flex justify-content-center align-items-center">
-                  <span class="SelfStorage_green fs_24 me-2">1 эт.</span><span class="fs_24">№1389-11</span>
+                  <span class="SelfStorage_green fs_24 me-2">1 эт.</span><span class="fs_24">№ {{ box.number }}</span>
                 </div>
                 <div class="col-6 col-md-4 col-lg-3 d-flex justify-content-center align-items-center">
-                  <span class="fs_24">2 м²</span>
+                  <span class="fs_24">{{ box.total_area }} м²</span>
                 </div>
                 <div class="col-6 col-md-4 col-lg-3 d-flex justify-content-center align-items-center">
-                  <span class="fs_24">2 х 1 х 2.5 м²</span>
+                  <span class="fs_24">{{ box.height }} х {{ box.length }} х {{ box.total_area }} м²</span>
                 </div>
                 <div class="col-12 col-lg-3">
-                  <span class="btn my-2 w-100 text-white fs_24 SelfStorage__bg_orange SelfStorage__btn2_orange border-8">От 2264 ₽</span>
+                  <span class="btn my-2 w-100 text-white fs_24 SelfStorage__bg_orange SelfStorage__btn2_orange border-8">{{ box.cost }} ₽</span>
                 </div>
               </a>
-            {% endif %}
-          {% endfor %}
-          <div class="collapse" id="collapse-all">
-            {% for box in boxes %}
-              {% if forloop.counter > 3 %}
-                <a href="#" class="row text-decoration-none py-3 px-4 mt-5 SelfStorage__boxlink">
-                  <div class="col-12 col-md-4 col-lg-3 d-flex justify-content-center align-items-center">
-                    <span class="SelfStorage_green fs_24 me-2">1 эт.</span><span class="fs_24">№1234-56</span>
-                  </div>
-                  <div class="col-6 col-md-4 col-lg-3 d-flex justify-content-center align-items-center">
-                    <span class="fs_24">4 м²</span>
-                  </div>
-                  <div class="col-6 col-md-4 col-lg-3 d-flex justify-content-center align-items-center">
-                    <span class="fs_24">2 х 4 х 2.5 м²</span>
-                  </div>
-                  <div class="col-12 col-lg-3">
-                    <span class="btn my-2 w-100 text-white fs_24 SelfStorage__bg_orange SelfStorage__btn2_orange border-8">От 1234 ₽</span>
-                  </div>
-                </a>
-              {% endif %}
             {% endfor %}
-          </div>
-          <div class="d-flex justify-content-center mt-5">
-            <button class="btn w-auto py-3 px-5 SelfStorage__bg_orange SelfStorage__btn2_orange text-white text-center fs_24 border-8" id="btn-collapse-all" data-bs-toggle="collapse" data-bs-target="#collapse-all" aria-expanded="false" aria-controls="collapse-all">Другие боксы</button>
-            <script>
-              document.getElementById('btn-collapse-all').addEventListener('click', () => document.getElementById('btn-collapse-all').classList.add('d-none'))
-            </script>
-          </div>
-        </div>
-
+          {% endfor %}
         <!-- Filters -->
         <div class="tab-pane fade" id="pills-to3" role="tabpanel" aria-labelledby="pills-profile-tab">
+
           <a href="#" class="row text-decoration-none py-3 px-4 mt-5 SelfStorage__boxlink">
             <div class="col-12 col-md-4 col-lg-3 d-flex justify-content-center align-items-center">
               <span class="SelfStorage_green fs_24 me-2">1 эт.</span><span class="fs_24">№1389-11</span>
@@ -336,12 +312,6 @@
                 <span class="btn my-2 w-100 text-white fs_24 SelfStorage__bg_orange SelfStorage__btn2_orange border-8">От 6789 ₽</span>
               </div>
             </a>
-          </div>
-          <div class="d-flex justify-content-center mt-5">
-            <button class="btn w-auto py-3 px-5 SelfStorage__bg_orange SelfStorage__btn2_orange text-white text-center fs_24 border-8" id="btn-collapse-to10" data-bs-toggle="collapse" data-bs-target="#collapse-to10" aria-expanded="false" aria-controls="collapse-to10">Другие боксы</button>
-            <script>
-              document.getElementById('btn-collapse-to10').addEventListener('click', () => document.getElementById('btn-collapse-to10').classList.add('d-none'))
-            </script>
           </div>
         </div>
         <div class="tab-pane fade" id="pills-from10" role="tabpanel" aria-labelledby="pills-contact-tab">

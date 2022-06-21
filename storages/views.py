@@ -2,7 +2,7 @@ import stripe
 from accounts.forms import CustomUserCreationForm, UserAuthenticationForm
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from django.db.models import Count, Min, Q
+from django.db.models import Count, Min, Q, F
 from django.http import HttpResponseNotFound
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -20,14 +20,14 @@ def index(request):
 
 
 def boxes(request):
-    free_boxes_query = Count('boxes_in_storage', filter=Q(
+    free_boxes_count_query = Count('boxes_in_storage', filter=Q(
         boxes_in_storage__is_available=True))
+
     storages = Storage.objects.prefetch_related('boxes_in_storage')\
         .select_related('city')\
-        .annotate(free_boxes=free_boxes_query)\
+        .annotate(free_boxes_count=free_boxes_count_query)\
         .annotate(boxes_count=Count('boxes_in_storage'))\
         .annotate(min_price=Min('boxes_in_storage__cost'))
-    boxes = Box.objects.all().order_by('storage', 'number')
 
     context = {
         "storages": storages,
