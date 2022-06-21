@@ -27,8 +27,12 @@ def boxes(request):
         .annotate(free_boxes=free_boxes_query)\
         .annotate(boxes_count=Count('boxes_in_storage'))\
         .annotate(min_price=Min('boxes_in_storage__cost'))
+    boxes = Box.objects.all().order_by('storage', 'number')
 
-    context = {"storages": storages}
+    context = {
+        "storages": storages,
+        "boxes": boxes,
+    }
 
     return render(request, 'boxes.html', context)
 
