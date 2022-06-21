@@ -79,6 +79,7 @@ class CustomUserCreationForm(UserCreationForm):
 class ProfileForm(forms.ModelForm):
     # TODO: Сделать валидацию email
     #       Почему-то email не меняется в личном кабинете
+    #       Добавить поле Телефон
 
     password = forms.CharField(
         label='Password',

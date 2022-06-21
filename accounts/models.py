@@ -34,6 +34,8 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractUser):
+    # TODO: Добавить поле Телефон
+
     username = None
     email = models.EmailField(_('email address'), unique=True)
 
