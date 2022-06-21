@@ -51,7 +51,6 @@ def signup_user(request):
             return redirect(reverse('profile', args=[request.user.id]))
         else:
             messages.error(request, 'Ошибка регистрации. Форма заполнена неверно')
-    else:
         form = CustomUserCreationForm()
     return render(request, 'index.html', {'signup_form': form})
 
