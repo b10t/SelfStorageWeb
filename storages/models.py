@@ -76,8 +76,13 @@ class Storage(models.Model):
 
 class BoxQuerySet(models.QuerySet):
     def available(self):
-        boxes = self.filter(is_available=True)
-        return boxes
+        return self.filter(is_available=True)
+
+    def total_area_lt(self, total_area):
+        return self.filter(total_area__lt=total_area)
+
+    def total_area_gt(self, total_area):
+        return self.filter(total_area__gt=total_area)
 
 
 class Box(models.Model):

@@ -210,23 +210,29 @@
           </div>
         </div>
         <!-- Filters -->
+        {% if total_area_lt3 %}
         <div class="tab-pane fade" id="pills-to3" role="tabpanel" aria-labelledby="pills-profile-tab">
-
+          {% for box in total_area_lt3 %}
           <a href="#" class="row text-decoration-none py-3 px-4 mt-5 SelfStorage__boxlink">
             <div class="col-12 col-md-4 col-lg-3 d-flex justify-content-center align-items-center">
-              <span class="SelfStorage_green fs_24 me-2">1 эт.</span><span class="fs_24">№1389-11</span>
+              <span class="SelfStorage_green fs_24 me-2">1 эт.</span><span class="fs_24">№{{ box.number }}</span>
             </div>
             <div class="col-6 col-md-4 col-lg-3 d-flex justify-content-center align-items-center">
-              <span class="fs_24">2 м²</span>
+              <span class="fs_24">{{ box.total_area }} м²</span>
             </div>
             <div class="col-6 col-md-4 col-lg-3 d-flex justify-content-center align-items-center">
-              <span class="fs_24">2 х 1 х 2.5 м²</span>
+              <span class="fs_24">{{ box.width|floatformat:2 }} х {{ box.length|floatformat:2 }} х {{ box.height|floatformat:2 }} м²</span>
             </div>
             <div class="col-12 col-lg-3">
-              <span class="btn my-2 w-100 text-white fs_24 SelfStorage__bg_orange SelfStorage__btn2_orange border-8">От  2264 ₽</span>
+              <span class="btn my-2 w-100 text-white fs_24 SelfStorage__bg_orange SelfStorage__btn2_orange border-8">От {{ box.cost }} ₽</span>
             </div>
           </a>
+          {% endfor %}
         </div>
+        {% else %}
+        <div class="tab-pane fade" id="pills-to3" role="tabpanel" aria-labelledby="pills-profile-tab"></div>
+        {% endif %}
+
         <div class="tab-pane fade" id="pills-to10" role="tabpanel" aria-labelledby="pills-contact-tab">
           <a href="#" class="row text-decoration-none py-3 px-4 mt-5 SelfStorage__boxlink">
             <div class="col-12 col-md-4 col-lg-3 d-flex justify-content-center align-items-center">
