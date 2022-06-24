@@ -31,10 +31,16 @@ def boxes(request):
         .annotate(min_price=Min('boxes_in_storage__cost'))
 
     available_boxes = Box.objects.filter(is_available=True)
+    total_area_lt3 = Box.objects.total_area_lt(3)
+    total_area_lt10 = Box.objects.total_area_lt(10)
+    total_area_gt10 = Box.objects.total_area_gt(10)
 
     context = {
         "storages": storages,
         "boxes": available_boxes,
+        "total_area_lt3": total_area_lt3,
+        "total_area_lt10": total_area_lt10,
+        "total_area_gt10": total_area_gt10,
     }
 
     return render(request, 'boxes.html', context)
